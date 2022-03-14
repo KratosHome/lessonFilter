@@ -7,6 +7,8 @@ import './Home.css'
 const Home = () => {
     const [selectedCategory, setSelectedCategory] = useState(null)
     const [selectedRating, setSelectedRating] = useState(null)
+    const [ selectedPrice, setSelectedPrice ] = useState([1000, 5000])
+
     const [cusines, setCusines] = useState([
         {
             id: 1,
@@ -39,6 +41,11 @@ const Home = () => {
         setCusines(changeCheckedCuisines)
     }
 
+    const handleChangePrice = (event, value) => {
+        setSelectedPrice(value)
+    }
+
+
     return (
         <div className="home">
             <SearchBear />
@@ -51,6 +58,8 @@ const Home = () => {
                         selectedRating={selectedRating}
                         cusines={cusines}
                         changeChecked={handleChangeChecked}
+                        selectedPrice={selectedPrice}
+                        changePrice={handleChangePrice}
                     />
                 </div>
                 <div className="home-list-wrap">
