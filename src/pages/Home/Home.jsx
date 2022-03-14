@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import Filterpanel from "../../component/Home/FilterPanel/FilterPanel";
 import List from "../../component/Home/List/List";
 import SearchBear from "../../component/Home/SerchBar/SearchBear";
+import { dataList } from "../../constants/constants";
 import './Home.css'
 
 const Home = () => {
     const [selectedCategory, setSelectedCategory] = useState(null)
     const [selectedRating, setSelectedRating] = useState(null)
     const [ selectedPrice, setSelectedPrice ] = useState([1000, 5000])
+    const [ list, setList ] = useState(dataList)
 
     const [cusines, setCusines] = useState([
         {
@@ -63,11 +65,11 @@ const Home = () => {
                     />
                 </div>
                 <div className="home-list-wrap">
-                    <List />
+                    <List list={list} />
                 </div>
             </div>
         </div>
-    )
+    ) 
 }
 
 export default Home;
