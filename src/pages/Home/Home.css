@@ -14,6 +14,7 @@
 
 .home_pane-wrap{
     flex-basis: 280px;
+    padding: 1rem;
 }
 .home-list-wrap{
     flex: 1;
