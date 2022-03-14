@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import EmptyView from "../../component/common/EmptyView/EmptyView";
 import Filterpanel from "../../component/Home/FilterPanel/FilterPanel";
 import List from "../../component/Home/List/List";
 import SearchBear from "../../component/Home/SerchBar/SearchBear";
@@ -11,6 +12,8 @@ const Home = () => {
     const [selectedPrice, setSelectedPrice] = useState([1000, 5000])
 
     const [inputSearch, setInputSearch] = useState("")
+
+    const [resultFound, setResultFound] = useState(false)
 
     const [cuisines, setCuisines] = useState([
         { id: 1, checked: false, label: 'American' },
@@ -82,6 +85,8 @@ const Home = () => {
 
 
         setList(updateList)
+
+        !updateList.length ? setResultFound(false) : setResultFound(true)
     }
 
     useEffect(() => {
@@ -115,7 +120,7 @@ const Home = () => {
                     />
                 </div>
                 <div className="home-list-wrap">
-                    <List list={list} />
+                   {resultFound ? <List list={list} /> : <EmptyView />}
                 </div>
             </div>
         </div>

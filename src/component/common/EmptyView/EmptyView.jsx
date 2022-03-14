@@ -1,11 +1,12 @@
 import React from 'react';
+import "./EmptyView.css"
 
-const Emptyview = () => {
+const EmptyView = () => {
     return (
         <div>
-            <h1>EmptyView</h1>
+            <img src='/images/gif/empty.gif' alt='' />
         </div>
     );
 }
 
-export default Emptyview;
+export default EmptyView;
