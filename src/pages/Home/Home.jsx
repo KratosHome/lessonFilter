@@ -74,19 +74,32 @@ const Home = () => {
         )
 
         // search filter
+        if (inputSearch) {
+            updateList = updateList.filter((item) =>
+                item.title.toLowerCase().search(inputSearch.toLowerCase().trim()) !== -1
+            )
+        }
+
 
         setList(updateList)
     }
 
     useEffect(() => {
         applyFilters()
-    }, [selectedRating, selectedCategory, cuisines, selectedPrice, selectedPrice]);
+    }, [
+        selectedRating,
+        selectedCategory,
+        cuisines,
+        selectedPrice,
+        selectedPrice,
+        inputSearch
+    ]);
 
     return (
         <div className="home">
-            <SearchBear 
-            value={inputSearch} 
-            changeInput={e => setInputSearch(e.target.value)}
+            <SearchBear
+                value={inputSearch}
+                changeInput={e => setInputSearch(e.target.value)}
             />
             <div className="home_panelList-wrap">
                 <div className="home_pane-wrap">
