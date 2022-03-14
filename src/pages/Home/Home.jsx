@@ -10,6 +10,7 @@ const Home = () => {
     const [selectedRating, setSelectedRating] = useState(null)
     const [selectedPrice, setSelectedPrice] = useState([1000, 5000])
 
+    const [inputSearch, setInputSearch] = useState("")
 
     const [cuisines, setCuisines] = useState([
         { id: 1, checked: false, label: 'American' },
@@ -42,9 +43,9 @@ const Home = () => {
         // Reting Filter 
         if (selectedRating) {
             updateList = updateList.filter(
-              (item) => parseInt(item.rating) === parseInt(selectedRating)
+                (item) => parseInt(item.rating) === parseInt(selectedRating)
             );
-          }
+        }
 
         // Categori Filter 
         if (selectedCategory) {
@@ -64,17 +65,29 @@ const Home = () => {
             );
         }
 
+        // Price filter
+        const minPrice = selectedPrice[0]
+        const maxPrice = selectedPrice[1]
+
+        updateList = updateList.filter(
+            (item) => item.price >= minPrice && item.price <= maxPrice
+        )
+
+        // search filter
 
         setList(updateList)
     }
 
     useEffect(() => {
         applyFilters()
-    }, [selectedRating, selectedCategory, cuisines]);
+    }, [selectedRating, selectedCategory, cuisines, selectedPrice, selectedPrice]);
 
     return (
         <div className="home">
-            <SearchBear />
+            <SearchBear 
+            value={inputSearch} 
+            changeInput={e => setInputSearch(e.target.value)}
+            />
             <div className="home_panelList-wrap">
                 <div className="home_pane-wrap">
                     <Filterpanel
