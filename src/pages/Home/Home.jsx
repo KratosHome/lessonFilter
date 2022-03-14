@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Filterpanel from "../../component/Home/FilterPanel/FilterPanel";
 import List from "../../component/Home/List/List";
 import SearchBear from "../../component/Home/SerchBar/SearchBear";
@@ -8,45 +8,69 @@ import './Home.css'
 const Home = () => {
     const [selectedCategory, setSelectedCategory] = useState(null)
     const [selectedRating, setSelectedRating] = useState(null)
-    const [ selectedPrice, setSelectedPrice ] = useState([1000, 5000])
-    const [ list, setList ] = useState(dataList)
+    const [selectedPrice, setSelectedPrice] = useState([1000, 5000])
 
-    const [cusines, setCusines] = useState([
-        {
-            id: 1,
-            checked: false,
-            label: "American",
-        },
-        {
-            id: 2,
-            checked: false,
-            label: "Chinese",
-        },
-        {
-            id: 3,
-            checked: false,
-            label: "Italian",
-        }
-    ])
 
-    const handelSelecktCategory = (event, value) =>
+    const [cuisines, setCuisines] = useState([
+        { id: 1, checked: false, label: 'American' },
+        { id: 2, checked: false, label: 'Chinese' },
+        { id: 3, checked: false, label: 'Italian' },
+    ]);
+    const [list, setList] = useState(dataList)
+
+    const handleSelectCategory = (event, value) =>
         !value ? null : setSelectedCategory(value)
 
-    const handelSelecktRating = (event, value) =>
+    const handleSelectRating = (event, value) =>
         !value ? null : setSelectedRating(value)
 
     const handleChangeChecked = id => {
-        const cuisinesStateList = cusines
+        const cuisinesStateList = cuisines
         const changeCheckedCuisines = cuisinesStateList.map(item =>
             item.id === id ? { ...item, checked: !item.checked } : item
         )
-        setCusines(changeCheckedCuisines)
+        setCuisines(changeCheckedCuisines)
     }
 
     const handleChangePrice = (event, value) => {
         setSelectedPrice(value)
     }
 
+    const applyFilters = () => {
+        let updateList = dataList;
+
+        // Reting Filter 
+        if (selectedRating) {
+            updateList = updateList.filter(
+              (item) => parseInt(item.rating) === parseInt(selectedRating)
+            );
+          }
+
+        // Categori Filter 
+        if (selectedCategory) {
+            updateList = updateList.filter(
+                (item) => item.category === selectedCategory
+            );
+        }
+
+        // cusine filter
+        const cuisinesChecked = cuisines
+            .filter((item) => item.checked)
+            .map((item) => item.label.toLowerCase());
+
+        if (cuisinesChecked.length) {
+            updateList = updateList.filter((item) =>
+                cuisinesChecked.includes(item.cuisine)
+            );
+        }
+
+
+        setList(updateList)
+    }
+
+    useEffect(() => {
+        applyFilters()
+    }, [selectedRating, selectedCategory, cuisines]);
 
     return (
         <div className="home">
@@ -54,13 +78,13 @@ const Home = () => {
             <div className="home_panelList-wrap">
                 <div className="home_pane-wrap">
                     <Filterpanel
-                        selectToggle={handelSelecktCategory}
                         selectedCategory={selectedCategory}
-                        selectReting={handelSelecktRating}
+                        selectCategory={handleSelectCategory}
                         selectedRating={selectedRating}
-                        cusines={cusines}
-                        changeChecked={handleChangeChecked}
                         selectedPrice={selectedPrice}
+                        selectRating={handleSelectRating}
+                        cuisines={cuisines}
+                        changeChecked={handleChangeChecked}
                         changePrice={handleChangePrice}
                     />
                 </div>
@@ -69,7 +93,7 @@ const Home = () => {
                 </div>
             </div>
         </div>
-    ) 
+    )
 }
 
 export default Home;
