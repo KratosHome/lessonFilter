@@ -92,7 +92,6 @@ const Home = () => {
     useEffect(() => {
         applyFilters()
     }, [
-        applyFilters,
         selectedRating,
         selectedCategory,
         cuisines,
