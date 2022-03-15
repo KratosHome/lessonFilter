@@ -40,6 +40,7 @@ const Home = () => {
         setSelectedPrice(value)
     }
 
+    useEffect(() => {
     const applyFilters = () => {
         let updateList = dataList;
 
@@ -88,10 +89,9 @@ const Home = () => {
 
         !updateList.length ? setResultFound(false) : setResultFound(true)
     }
-
-    useEffect(() => {
         applyFilters()
     }, [
+        applyFilters,
         selectedRating,
         selectedCategory,
         cuisines,
