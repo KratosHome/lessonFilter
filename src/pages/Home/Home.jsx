@@ -58,47 +58,45 @@ const Home = () => {
         }
 
         // cusine filter
-        const cuisinesChecked = cuisines
-            .filter((item) => item.checked)
-            .map((item) => item.label.toLowerCase());
+        useEffect(() => {
+            const cuisinesChecked = cuisines
+                .filter((item) => item.checked)
+                .map((item) => item.label.toLowerCase());
 
-        if (cuisinesChecked.length) {
-            updateList = updateList.filter((item) =>
-                cuisinesChecked.includes(item.cuisine)
-            );
-        }
+            if (cuisinesChecked.length) {
+                updateList = updateList.filter((item) =>
+                    cuisinesChecked.includes(item.cuisine)
+                );
+            }
 
-        // Price filter
-        const minPrice = selectedPrice[0]
-        const maxPrice = selectedPrice[1]
+            // Price filter
+            const minPrice = selectedPrice[0]
+            const maxPrice = selectedPrice[1]
 
-        updateList = updateList.filter(
-            (item) => item.price >= minPrice && item.price <= maxPrice
-        )
-
-        // search filter
-        if (inputSearch) {
-            updateList = updateList.filter((item) =>
-                item.title.toLowerCase().search(inputSearch.toLowerCase().trim()) !== -1
+            updateList = updateList.filter(
+                (item) => item.price >= minPrice && item.price <= maxPrice
             )
+
+            // search filter
+            if (inputSearch) {
+                updateList = updateList.filter((item) =>
+                    item.title.toLowerCase().search(inputSearch.toLowerCase().trim()) !== -1
+                )
+            }
+
+
+            setList(updateList)
+
+            !updateList.length ? setResultFound(false) : setResultFound(true)
         }
-
-
-        setList(updateList)
-
-        !updateList.length ? setResultFound(false) : setResultFound(true)
-    }
-
-    useEffect(() => {
-        applyFilters()
     }, [
-        selectedRating,
-        selectedCategory,
-        cuisines,
-        selectedPrice,
-        selectedPrice,
-        inputSearch
-    ]);
+            selectedRating,
+            selectedCategory,
+            cuisines,
+            selectedPrice,
+            selectedPrice,
+            inputSearch
+        ]);
 
     return (
         <div className="home">
@@ -120,7 +118,7 @@ const Home = () => {
                     />
                 </div>
                 <div className="home-list-wrap">
-                   {resultFound ? <List list={list} /> : <EmptyView />}
+                    {resultFound ? <List list={list} /> : <EmptyView />}
                 </div>
             </div>
         </div>
