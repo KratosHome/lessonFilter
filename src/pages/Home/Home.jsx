@@ -91,7 +91,6 @@ const Home = () => {
 
             !updateList.length ? setResultFound(false) : setResultFound(true)
         }
-        
         applyFilters()
     }, [
         selectedRating,
