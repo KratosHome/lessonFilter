@@ -27,6 +27,7 @@ const useStyles = makeStyles({
 const CheckBoxProton = ({  changeChecked, cuisine }) => {
     const classes = useStyles()
     const { checked, label, id } = cuisine;
+
     return (
         <div>
             <FormControlLabel

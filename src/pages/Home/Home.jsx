@@ -36,62 +36,65 @@ const Home = () => {
         setCuisines(changeCheckedCuisines)
     }
 
+  
+
     const handleChangePrice = (event, value) => {
         setSelectedPrice(value)
     }
 
     useEffect(() => {
-    const applyFilters = () => {
-        let updateList = dataList;
+        const applyFilters = () => {
+            let updateList = dataList;
 
-        // Reting Filter 
-        if (selectedRating) {
+            // Reting Filter 
+            if (selectedRating) {
+                updateList = updateList.filter(
+                    (item) => parseInt(item.rating) === parseInt(selectedRating)
+                );
+            }
+
+            // Categori Filter 
+            if (selectedCategory) {
+                updateList = updateList.filter(
+                    (item) => item.category === selectedCategory
+                );
+            }
+
+            // cusine filter
+            const cuisinesChecked = cuisines
+                .filter((item) => item.checked)
+                .map((item) => item.label.toLowerCase());
+
+            if (cuisinesChecked.length) {
+                updateList = updateList.filter((item) =>
+                    cuisinesChecked.includes(item.cuisine)
+                );
+            }
+
+            // Price filter
+            const minPrice = selectedPrice[0]
+            const maxPrice = selectedPrice[1]
+
             updateList = updateList.filter(
-                (item) => parseInt(item.rating) === parseInt(selectedRating)
-            );
-        }
-
-        // Categori Filter 
-        if (selectedCategory) {
-            updateList = updateList.filter(
-                (item) => item.category === selectedCategory
-            );
-        }
-
-        // cusine filter
-        const cuisinesChecked = cuisines
-            .filter((item) => item.checked)
-            .map((item) => item.label.toLowerCase());
-
-        if (cuisinesChecked.length) {
-            updateList = updateList.filter((item) =>
-                cuisinesChecked.includes(item.cuisine)
-            );
-        }
-
-        // Price filter
-        const minPrice = selectedPrice[0]
-        const maxPrice = selectedPrice[1]
-
-        updateList = updateList.filter(
-            (item) => item.price >= minPrice && item.price <= maxPrice
-        )
-
-        // search filter
-        if (inputSearch) {
-            updateList = updateList.filter((item) =>
-                item.title.toLowerCase().search(inputSearch.toLowerCase().trim()) !== -1
+                (item) => item.price >= minPrice && item.price <= maxPrice
             )
+
+            // search filter
+            if (inputSearch) {
+                updateList = updateList.filter((item) =>
+                    item.title.toLowerCase().search(inputSearch.toLowerCase().trim()) !== -1
+                )
+            }
+
+
+            setList(updateList)
+
+            !updateList.length ? setResultFound(false) : setResultFound(true)
         }
 
-
-        setList(updateList)
-
-        !updateList.length ? setResultFound(false) : setResultFound(true)
-    }
         applyFilters()
+        
     }, [
-        applyFilters,
         selectedRating,
         selectedCategory,
         cuisines,
@@ -120,7 +123,7 @@ const Home = () => {
                     />
                 </div>
                 <div className="home-list-wrap">
-                   {resultFound ? <List list={list} /> : <EmptyView />}
+                    {resultFound ? <List list={list} /> : <EmptyView />}
                 </div>
             </div>
         </div>
